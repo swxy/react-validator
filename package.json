@@ -1,0 +1,27 @@
+{
+  "name": "react-validator",
+  "version": "0.0.1",
+  "description": "react 验证器",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha verification/tests/required.spec.js",
+    "build": "babel ./verification --experimental --source-maps-inline -d ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swxy/react-validator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/swxy/react-validator/issues"
+  },
+  "homepage": "https://github.com/swxy/react-validator#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.5.1",
+    "babel-register": "^6.24.1",
+    "expect.js": "^0.3.1",
+    "mocha": "^3.4.2"
+  }
+}
