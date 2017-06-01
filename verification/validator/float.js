@@ -27,4 +27,4 @@ function floatFn(rule, value, callback, source, options) {
   callback(errors);
 }
 
-export default floatFn;
+module.exports = floatFn;

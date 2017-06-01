@@ -13,9 +13,8 @@ describe('required', () => {
     }).validate({
       v: [],
     }, (errors) => {
-      console.log(errors.length);
       expect(errors.length).to.be(1);
-      //expect(errors[0].message).to.be('no');
+      expect(errors[0].message).to.be('no');
       done();
     });
   });
@@ -57,7 +56,7 @@ describe('required', () => {
       v: '',
     }, (errors) => {
       expect(errors.length).to.be(1);
-      expect(errors[0]).to.be('v is required');
+      expect(errors[0].message).to.be('v is required');
       done();
     });
   });
@@ -110,7 +109,7 @@ describe('required', () => {
       v: null,
     }, (errors) => {
       expect(errors.length).to.be(1);
-      expect(errors[0]).to.be('v is required');
+      expect(errors[0].message).to.be('v is required');
       done();
     });
   });
@@ -137,7 +136,7 @@ describe('required', () => {
       v: undefined,
     }, (errors) => {
       expect(errors.length).to.be(1);
-      expect(errors[0]).to.be('v is required');
+      expect(errors[0].message).to.be('v is required');
       done();
     });
   });

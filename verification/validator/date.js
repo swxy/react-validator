@@ -8,7 +8,7 @@ function date(rule, value, callback, source, options) {
   // console.log('validate on %s value', value);
   if (validate) {
     if (isEmptyValue(value) && !rule.required) {
-      return callback();
+      return errors;
     }
     rules.required(rule, value, source, errors, options);
     if (!isEmptyValue(value)) {
@@ -18,7 +18,8 @@ function date(rule, value, callback, source, options) {
       }
     }
   }
-  callback(errors);
+  //callback(errors);
+  return errors;
 }
 
-export default date;
+module.exports = date;

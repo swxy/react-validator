@@ -15,7 +15,7 @@ function array(rule, value, callback, source, options) {
   const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
     if (isEmptyValue(value, 'array') && !rule.required) {
-      return callback();
+      return errors;
     }
     rules.required(rule, value, source, errors, options, 'array');
     if (!isEmptyValue(value, 'array')) {
@@ -23,7 +23,8 @@ function array(rule, value, callback, source, options) {
       rules.range(rule, value, source, errors, options);
     }
   }
-  callback(errors);
+  //callback(errors);
+  return errors;
 }
 
-export default array;
+module.exports = array;

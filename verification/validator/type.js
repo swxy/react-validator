@@ -7,14 +7,15 @@ function type(rule, value, callback, source, options) {
   const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
     if (isEmptyValue(value, ruleType) && !rule.required) {
-      return callback();
+      return errors;
     }
     rules.required(rule, value, source, errors, options, ruleType);
     if (!isEmptyValue(value, ruleType)) {
       rules.type(rule, value, source, errors, options);
     }
   }
-  callback(errors);
+  //callback(errors);
+  return errors;
 }
 
-export default type;
+module.exports = type;

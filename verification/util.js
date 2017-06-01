@@ -160,26 +160,23 @@ export function asyncMap(objArr, option, func, callback) {
 export function complementError(rule) {
   return (oe) => {
     if (oe && oe.message) {
-      oe.field = oe.field || rule.fullField;
+      oe.field = oe.field || rule.field;
       return oe;
     }
     return {
       message: oe,
-      field: oe.field || rule.fullField,
+      field: oe.field || rule.field,
     };
   };
 }
-/*
+
 export function deepMerge(target, source) {
   if (source) {
     for (const s in source) {
       if (source.hasOwnProperty(s)) {
         const value = source[s];
         if (typeof value === 'object' && typeof target[s] === 'object') {
-          target[s] = {
-            ...target[s],
-            ...value,
-          };
+          target[s] = Object.assign({}, target[s], value);
         } else {
           target[s] = value;
         }
@@ -188,4 +185,3 @@ export function deepMerge(target, source) {
   }
   return target;
 }
-*/

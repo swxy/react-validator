@@ -26,4 +26,4 @@ function object(rule, value, callback, source, options) {
   callback(errors);
 }
 
-export default object;
+module.exports = object;

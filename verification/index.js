@@ -2,30 +2,33 @@
  * Created by swxy on 2017/5/27.
  */
 import validators from './validator';
-import {format, warning} from './util';
+import {messages, newMessages} from './messages';
+import {format, warning, complementError, deepMerge} from './util';
 
 class Schema {
     constructor(descriptor) {
         this.rules = {};
+        this._messages = newMessages();
         this.define(descriptor);
     }
 
     define(rules) {
         Object.keys(rules).forEach((ruleKey, idx) => {
             // 定义的时候先转化一下格式
-            const rule = this.formatRule(rules[ruleKey]);
+            const rule = this.formatRule(ruleKey, rules[ruleKey]);
             this.rules[ruleKey] = Array.isArray(rule) ? rule : [rule];
         })
     }
 
-    formatRule(rule) {
+    formatRule(field, rule) {
         if (Array.isArray(rule)) {
-            return rule.map(r => (this.formatRule(r)));
+            return rule.map(r => (this.formatRule(field, r)));
         }
         else {
             return Object.assign({}, rule, {
                 validator: this.getValidationMethod(rule),
-                type: this.getType(rule)
+                type: this.getType(rule),
+                field: field
             });
         }
     }
@@ -34,8 +37,11 @@ class Schema {
         if (typeof rule === 'function') {
             return rule;
         }
+        if (rule.validator && typeof rule.validator === 'function') {
+            return rule.validator;
+        }
         // 仅仅针对必填项{required: true}这种
-        if (!rule.type && rule.required) {
+        if (!rule.type && rule.required !== undefined) {
             return validators.required;
         }
         return validators[this.getType(rule)] || false;
@@ -57,33 +63,36 @@ class Schema {
             callback = options;
             options = {};
         }
-        console.log('validating....');
+        if (options.messages) {
+            let messages = this.messages();
+            deepMerge(messages, options.messages);
+            options.messages = messages;
+        } else {
+            options.messages = this.messages();
+        }
         const keys = options.keys || Object.keys(this.rules);
         const errors = [];
-        const results = keys.map(key => {
-            return new Promise((resolve, reject) => {
-                const rules = this.rules[key];
-                let value = source[key];
-                const validators = rules.map(rule => (rule.validator(rule, value, key, source, options)));
-                return Promise.all(validators).then(values => {
-                    console.log(key, 'done', values);
-                    resolve(values.join(', '));
-                }).catch(err => {
-                    errors.push(...err);
-                    console.log(key, 'error', err);
-                    reject(err.join(''));
-                });
-            })
-        });
-        Promise.all(results)
-            .then(values => {
-                console.log('all validate');
-                callback();
-            })
-            .catch(err => {
-                console.log('error', err);
-                callback(errors);
-            });
+        for (let key of keys) {
+            const rules = this.rules[key];
+            let value = source[key];
+            for (let rule of rules) {
+                let tempError = rule.validator(rule, value, key, source, options);
+                // 直接返回string或者new Error('xxx')形式
+                if (typeof tempError === 'string' || tempError.message) {
+                    tempError = [tempError];
+                }
+                if (Array.isArray(tempError) && tempError.length) {
+                    if (rule.message) {
+                        tempError = [].concat(rule.message);
+                    }
+                    // 将字符串转化一下成对象形式
+                    tempError = tempError.map(complementError(rule));
+                    errors.push(...tempError);
+                    // break;
+                }
+            }
+        }
+        callback(errors.length ? errors : null);
     }
 
     static register(type, validator) {
@@ -91,6 +100,13 @@ class Schema {
             throw new Error('Cannot register a validator by type, validator is not a function');
         }
         validator[type] = validator;
+    }
+
+    messages(messages) {
+        if (messages) {
+            this._messages = deepMerge(newMessages(), messages);
+        }
+        return this._messages;
     }
 }
 

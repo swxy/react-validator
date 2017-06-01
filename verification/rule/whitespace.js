@@ -17,4 +17,4 @@ function whitespace(rule, value, source, errors, options) {
   }
 }
 
-export default whitespace;
+module.exports = whitespace;

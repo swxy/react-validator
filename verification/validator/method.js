@@ -26,4 +26,4 @@ function method(rule, value, callback, source, options) {
   callback(errors);
 }
 
-export default method;
+module.exports = method;

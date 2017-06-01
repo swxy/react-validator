@@ -15,9 +15,9 @@ function pattern(rule, value, source, errors, options) {
   if (rule.pattern instanceof RegExp) {
     if (!rule.pattern.test(value)) {
       errors.push(util.format(options.messages.pattern.mismatch,
-        rule.fullField, value, rule.pattern));
+        rule.field, value, rule.pattern));
     }
   }
 }
 
-export default pattern;
+module.exports = pattern;

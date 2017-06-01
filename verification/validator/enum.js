@@ -27,4 +27,4 @@ function enumerable(rule, value, callback, source, options) {
   callback(errors);
 }
 
-export default enumerable;
+module.exports = enumerable;

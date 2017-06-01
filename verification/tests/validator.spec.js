@@ -6,16 +6,19 @@ describe('validator', () => {
     new Schema({
       v: [{
         validator(rule, value, callback) {
-          callback(new Error('e1'));
+          //callback(new Error('e1'));
+            return new Error('e1');
         },
       }, {
         validator(rule, value, callback) {
-          callback(new Error('e2'));
+          //callback(new Error('e2'));
+            return 'e2';
         },
       }],
       v2: [{
         validator(rule, value, callback) {
-          callback(new Error('e3'));
+          //callback(new Error('e3'));
+            return 'e3';
         },
       }],
     }).validate({
@@ -28,21 +31,24 @@ describe('validator', () => {
       done();
     });
   });
-
+/*
   it('first works', (done) => {
     new Schema({
       v: [{
         validator(rule, value, callback) {
-          callback(new Error('e1'));
+          //callback(new Error('e1'));
+            return 'e1';
         },
       }, {
         validator(rule, value, callback) {
-          callback(new Error('e2'));
+          // callback(new Error('e2'));
+            return 'e2';
         },
       }],
       v2: [{
         validator(rule, value, callback) {
-          callback(new Error('e3'));
+          //callback(new Error('e3'));
+            return 'e3';
         },
       }],
     }).validate({
@@ -140,5 +146,5 @@ describe('validator', () => {
         done();
       });
     });
-  });
+  });*/
 });

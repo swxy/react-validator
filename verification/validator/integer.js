@@ -27,4 +27,4 @@ function integer(rule, value, callback, source, options) {
   callback(errors);
 }
 
-export default integer;
+module.exports = integer;

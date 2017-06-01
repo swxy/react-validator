@@ -19,14 +19,15 @@ function pattern(rule, value, callback, source, options) {
   const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
     if (isEmptyValue(value, 'string') && !rule.required) {
-      return callback();
+      return errors;
     }
     rules.required(rule, value, source, errors, options);
     if (!isEmptyValue(value, 'string')) {
       rules.pattern(rule, value, source, errors, options);
     }
   }
-  callback(errors);
+  return errors;
+  // callback(errors);
 }
 
-export default pattern;
+module.exports = pattern;

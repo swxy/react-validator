@@ -1,5 +1,5 @@
 import rules from '../rule/';
-import { isEmptyValue } from '../util';
+import {isEmptyValue} from '../util';
 
 /**
  *  Performs validation for string types.
@@ -12,32 +12,23 @@ import { isEmptyValue } from '../util';
  *  @param options.messages The validation messages.
  */
 function string(rule, value, callback, source, options) {
-    return new Promise((resolve, reject) => {
-        const errors = [];
-        const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
-        if (validate) {
-            if (isEmptyValue(value, 'string') && !rule.required) {
-                resolve('success');
-                //return callback();
-            }
-            rules.required(rule, value, source, errors, options, 'string');
-            if (!isEmptyValue(value, 'string')) {
-                rules.type(rule, value, source, errors, options);
-                rules.range(rule, value, source, errors, options);
-                rules.pattern(rule, value, source, errors, options);
-                if (rule.whitespace === true) {
-                    rules.whitespace(rule, value, source, errors, options);
-                }
+    const errors = [];
+    const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
+    if (validate) {
+        if (isEmptyValue(value, 'string') && !rule.required) {
+            return errors;
+        }
+        rules.required(rule, value, source, errors, options, 'string');
+        if (!isEmptyValue(value, 'string')) {
+            rules.type(rule, value, source, errors, options);
+            rules.range(rule, value, source, errors, options);
+            rules.pattern(rule, value, source, errors, options);
+            if (rule.whitespace === true) {
+                rules.whitespace(rule, value, source, errors, options);
             }
         }
-        if (errors.length) {
-            reject(errors);
-        }
-        else {
-            resolve('success');
-        }
-        //callback(errors);
-    })
+    }
+    return errors;
 }
 
 module.exports = string;

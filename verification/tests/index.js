@@ -1,2 +1,10 @@
-const req = require.context('.', false, /\.spec\.js$/);
-req.keys().forEach(req);
+require('babel-register');
+require('./required.spec');
+require('./string.spec');
+require('./number.spec');
+require('./array.spec');
+require('./messages.spec');
+require('./date.spec');
+require('./pattern.spec');
+require('./validator.spec');
+require('./url.spec');

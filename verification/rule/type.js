@@ -79,12 +79,12 @@ function type(rule, value, source, errors, options) {
   const ruleType = rule.type;
   if (custom.indexOf(ruleType) > -1) {
     if (!types[ruleType](value)) {
-      errors.push(util.format(options.messages.types[ruleType], rule.fullField, rule.type));
+      errors.push(util.format(options.messages.types[ruleType], rule.field, rule.type));
     }
     // straight typeof check
   } else if (ruleType && typeof (value) !== rule.type) {
-    errors.push(util.format(options.messages.types[ruleType], rule.fullField, rule.type));
+    errors.push(util.format(options.messages.types[ruleType], rule.field, rule.type));
   }
 }
 
-export default type;
+module.exports = type;

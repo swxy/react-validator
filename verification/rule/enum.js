@@ -19,4 +19,4 @@ function enumerable(rule, value, source, errors, options) {
   }
 }
 
-export default enumerable;
+module.exports = enumerable;

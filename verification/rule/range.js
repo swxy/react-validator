@@ -38,16 +38,16 @@ function range(rule, value, source, errors, options) {
   }
   if (len) {
     if (val !== rule.len) {
-      errors.push(util.format(options.messages[key].len, rule.fullField, rule.len));
+      errors.push(util.format(options.messages[key].len, rule.field, rule.len));
     }
   } else if (min && !max && val < rule.min) {
-    errors.push(util.format(options.messages[key].min, rule.fullField, rule.min));
+    errors.push(util.format(options.messages[key].min, rule.field, rule.min));
   } else if (max && !min && val > rule.max) {
-    errors.push(util.format(options.messages[key].max, rule.fullField, rule.max));
+    errors.push(util.format(options.messages[key].max, rule.field, rule.max));
   } else if (min && max && (val < rule.min || val > rule.max)) {
     errors.push(util.format(options.messages[key].range,
-      rule.fullField, rule.min, rule.max));
+      rule.field, rule.min, rule.max));
   }
 }
 
-export default range;
+module.exports = range;

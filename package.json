@@ -4,7 +4,7 @@
   "description": "react 验证器",
   "main": "index.js",
   "scripts": {
-    "test": "mocha verification/tests/required.spec.js",
+    "test": "mocha verification/tests/index.js",
     "build": "babel ./verification --experimental --source-maps-inline -d ./dist"
   },
   "repository": {

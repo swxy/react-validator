@@ -26,4 +26,4 @@ function boolean(rule, value, callback, source, options) {
   callback(errors);
 }
 
-export default boolean;
+module.exports = boolean;
