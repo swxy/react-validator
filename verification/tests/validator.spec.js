@@ -24,10 +24,10 @@ describe('validator', () => {
     }).validate({
       v: 2,
     }, (errors) => {
-      expect(errors.length).to.be(3);
+      expect(errors.length).to.be(2);
       expect(errors[0].message).to.be('e1');
-      expect(errors[1].message).to.be('e2');
-      expect(errors[2].message).to.be('e3');
+      expect(errors[1].message).to.be('e3');
+      //expect(errors[2].message).to.be('e3');
       done();
     });
   });

@@ -7,16 +7,33 @@ import {format, warning, complementError, deepMerge} from './util';
 
 class Schema {
     constructor(descriptor) {
-        this.rules = {};
+        this.rules = null;
         this._messages = newMessages();
         this.define(descriptor);
     }
 
     define(rules) {
+        this.rules = {};
         Object.keys(rules).forEach((ruleKey, idx) => {
             // 定义的时候先转化一下格式
             const rule = this.formatRule(ruleKey, rules[ruleKey]);
             this.rules[ruleKey] = Array.isArray(rule) ? rule : [rule];
+        })
+    }
+    // 用于扩展规则
+    extend(rules) {
+        Object.keys(rules).forEach((ruleKey, idx) => {
+            // 定义的时候先转化一下格式
+            const rule = this.formatRule(ruleKey, rules[ruleKey]);
+            if (!this.rules[ruleKey]) {
+                this.rules[ruleKey] = [];
+            }
+            if (Array.isArray(rule)) {
+                this.rules[ruleKey].push(...rule);
+            }
+            else {
+                this.rules[ruleKey].push(rule);
+            }
         })
     }
 
@@ -76,7 +93,7 @@ class Schema {
             const rules = this.rules[key];
             let value = source[key];
             for (let rule of rules) {
-                let tempError = rule.validator(rule, value, key, source, options);
+                let tempError = rule.validator(rule, value, source, options);
                 // 直接返回string或者new Error('xxx')形式
                 if (typeof tempError === 'string' || tempError.message) {
                     tempError = [tempError];
@@ -88,7 +105,7 @@ class Schema {
                     // 将字符串转化一下成对象形式
                     tempError = tempError.map(complementError(rule));
                     errors.push(...tempError);
-                    // break;
+                    break;
                 }
             }
         }

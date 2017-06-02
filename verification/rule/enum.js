@@ -15,7 +15,7 @@ const ENUM = 'enum';
 function enumerable(rule, value, source, errors, options) {
   rule[ENUM] = Array.isArray(rule[ENUM]) ? rule[ENUM] : [];
   if (rule[ENUM].indexOf(value) === -1) {
-    errors.push(util.format(options.messages[ENUM], rule.fullField, rule[ENUM].join(', ')));
+    errors.push(util.format(options.messages[ENUM], rule.field, rule[ENUM].join(', ')));
   }
 }
 

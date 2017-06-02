@@ -1,7 +1,7 @@
 import rules from '../rule/';
 import { isEmptyValue } from '../util';
 
-function date(rule, value, callback, source, options) {
+function date(rule, value, source, options) {
   // console.log('integer rule called %j', rule);
   const errors = [];
   const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));

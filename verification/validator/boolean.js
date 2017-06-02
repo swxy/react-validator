@@ -6,12 +6,11 @@ import rules from '../rule/';
  *
  *  @param rule The validation rule.
  *  @param value The value of the field on the source object.
- *  @param callback The callback function.
  *  @param source The source object being validated.
  *  @param options The validation options.
  *  @param options.messages The validation messages.
  */
-function boolean(rule, value, callback, source, options) {
+function boolean(rule, value, source, options) {
   const errors = [];
   const validate = rule.required || (!rule.required && source.hasOwnProperty(rule.field));
   if (validate) {
