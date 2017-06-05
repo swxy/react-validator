@@ -14,14 +14,19 @@ class Schema {
 
     define(rules) {
         this.rules = {};
-        Object.keys(rules).forEach((ruleKey, idx) => {
-            // 定义的时候先转化一下格式
-            const rule = this.formatRule(ruleKey, rules[ruleKey]);
-            this.rules[ruleKey] = Array.isArray(rule) ? rule : [rule];
-        })
+        if (rules) {
+            Object.keys(rules).forEach((ruleKey, idx) => {
+                // 定义的时候先转化一下格式
+                const rule = this.formatRule(ruleKey, rules[ruleKey]);
+                this.rules[ruleKey] = Array.isArray(rule) ? rule : [rule];
+            })
+        }
     }
     // 用于扩展规则
     extend(rules) {
+        if (typeof rules !== 'object') {
+            return;
+        }
         Object.keys(rules).forEach((ruleKey, idx) => {
             // 定义的时候先转化一下格式
             const rule = this.formatRule(ruleKey, rules[ruleKey]);
