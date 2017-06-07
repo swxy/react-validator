@@ -121,7 +121,7 @@ class Schema {
         if (typeof validator !== 'function') {
             throw new Error('Cannot register a validator by type, validator is not a function');
         }
-        validator[type] = validator;
+        validators[type] = validator;
     }
 
     messages(messages) {
