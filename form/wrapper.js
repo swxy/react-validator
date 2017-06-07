@@ -28,9 +28,9 @@ export default function formWrapper(WrappedComponent) {
                 let error;
                 const value = e.target.value;
                 store[name] = value;
-                console.log('wrapper change callback');
+                // console.log('wrapper change callback');
                 schema.validate({[name]: value}, {keys: [name]}, function (err) {
-                    console.log('validate result: ', err);
+                    // console.log('validate result: ', err);
                     error = err;
                 });
                 oldOnChange && oldOnChange.call(oldOnChange, e, error, name);
@@ -46,14 +46,19 @@ export default function formWrapper(WrappedComponent) {
                 return parseRule(child);
             });
             let rules = elementsTree.props['data-validation'];
+            let force = elementsTree.props['data-validation-force'];
             let {name, onChange} = elementsTree.props;
             let schema = this.schema;
             let newProps = {};
-            if (name && rules) {
-                schema.extend({
-                    [name]: rules
-                });
-                newProps.onChange = this.onChangeWithValidation(name, onChange);
+            if (name && rules && rules.length) {
+                const oldRule = schema.getRule(name);
+                if (force || !oldRule || !oldRule.length) {
+                    console.log('extend rule');
+                    schema.extend({
+                        [name]: rules
+                    });
+                    newProps.onChange = this.onChangeWithValidation(name, onChange);
+                }
             }
             const props = Object.assign({}, elementsTree.props, newProps);
             return cloneElement(elementsTree, props, children);

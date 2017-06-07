@@ -42,6 +42,10 @@ class Schema {
         })
     }
 
+    getRule(name) {
+        return this.rules[name];
+    }
+
     formatRule(field, rule) {
         if (Array.isArray(rule)) {
             return rule.map(r => (this.formatRule(field, r)));
