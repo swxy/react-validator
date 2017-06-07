@@ -1,12 +1,14 @@
 {
-  "name": "react-validator",
+  "name": "react-validator-jq",
   "version": "0.0.1",
   "description": "react 验证器",
-  "main": "index.js",
+  "main": "dist/form/index.js",
   "scripts": {
     "start": "webpack-dev-server",
     "test": "mocha verification/tests/index.js",
-    "build": "babel ./verification --experimental --source-maps-inline -d ./dist"
+    "buildVerify": "babel ./verify --experimental --source-maps-inline -d ./dist/verify",
+    "buildForm": "babel ./form --experimental --source-maps-inline -d ./dist/form",
+    "build": "npm run buildForm && npm run buildVerify"
   },
   "repository": {
     "type": "git",
