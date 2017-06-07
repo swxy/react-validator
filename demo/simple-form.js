@@ -4,7 +4,7 @@
 
 import React, {Component} from 'react';
 import './simple-form.less';
-import FormWrapper from '../form/wrapper';
+import FormWrapper from '../dist/form';
 
 class SimpleForm extends Component {
     constructor(props) {
@@ -12,7 +12,6 @@ class SimpleForm extends Component {
         this.state = {
             errors: null
         }
-        //this.validate = null;
     }
 
     onChange(e, error, name) {

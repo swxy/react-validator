@@ -3,7 +3,7 @@
  */
 
 import React, {cloneElement} from 'react';
-import Schema from '../verification';
+import Schema from '../verify';
 
 export default function formWrapper(WrappedComponent) {
     return class Enhancer extends WrappedComponent {
@@ -57,8 +57,8 @@ export default function formWrapper(WrappedComponent) {
                     schema.extend({
                         [name]: rules
                     });
-                    newProps.onChange = this.onChangeWithValidation(name, onChange);
                 }
+                newProps.onChange = this.onChangeWithValidation(name, onChange);
             }
             const props = Object.assign({}, elementsTree.props, newProps);
             return cloneElement(elementsTree, props, children);
